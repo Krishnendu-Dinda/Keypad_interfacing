@@ -1,26 +1,26 @@
 /////////////////KEYPAD INTERFACING///////////////
 
-#include<reg51.h>    //include 8051 header file.
-#define DATA P2			//Select port2 as a data output pin.
+#include<reg51.h>                 //include 8051 header file.
+#define DATA P2	                 //Select port2 as a data output pin.
 #define input P3		//Select port3 as a keypad input pin.
 unsigned int i,j,k;
 
-sbit rs=P1^0;      //select the pin P1.0 for register select.
+sbit rs=P1^0;                     //select the pin P1.0 for register select.
 sbit rw=P1^1;			 //select the pin P1.1 for read/write.
 sbit en=P1^2;			 //select the pin P1.2 for Enable.
-sbit clr=P1^3;		 //select the pin P1.3 for clear the Display.	
+sbit clr=P1^3;		         //select the pin P1.3 for clear the Display.	
 unsigned int check[]={0xFE,0xFD,0xFB,0xF7};
 unsigned int numb[]={0x7E,0xBE,0xDE,0xEE,0x7D,0xBD,0xDD,0xED,0x7B,0xBB,0xDB,0xEB,0x77,0xB7,0xD7,0xE7};
 unsigned char val[]={"123A456B789C*0#D"};
 unsigned char key[]={"key press= "};
 
-void delay(unsigned int x) //Delay Function
+void delay(unsigned int x)         //Delay Function
 {
 	for(i=0;i<x;i++)
 		for(j=0;j<1275;j++);
 }
 
-void lcddata(unsigned char dat) // Function for LCD data.
+void lcddata(unsigned char dat)    // Function for LCD data.
 {
 	DATA=dat;
 	rs=1;
@@ -30,7 +30,7 @@ void lcddata(unsigned char dat) // Function for LCD data.
 	en=0;	
 }
 
-void lcdcmd(unsigned char comnd) // Function for LCD Command.
+void lcdcmd(unsigned char comnd)    // Function for LCD Command.
 {
 DATA=comnd;
 	rs=0;
@@ -42,15 +42,15 @@ DATA=comnd;
 
 void main(){
 	  	input=0xff;	
-			lcdcmd(0x38);   //select the pin P3.2 for Enable.
+			lcdcmd(0x38);           //select the pin P3.2 for Enable.
 			delay(10);
 			lcdcmd(0x0E);		//Command for : Display ON,Cursor ON.
 			delay(10);
-			lcdcmd(0x06);	 //Command for : Entry MOde.
+			lcdcmd(0x06);	       //Command for : Entry MOde.
 			delay(15);
 			lcdcmd(0x80);		//Command for : Force Cursor to beginning of 1st row.
-			for(k=0;k<11;k++){    // Call key[] array.
-				lcddata(key[k]);					
+			for(k=0;k<11;k++){      // Call key[] array.
+			   lcddata(key[k]);					
 			}	
 		lcdcmd(0x8c);			//Command for : Force Cursor to 12th no matrix of 1st row outof 16th matrix.
 	while(1){
@@ -137,7 +137,7 @@ void main(){
 		}
 		
 		if(clr==0){
-				lcdcmd(0x01);    //Command for : Clear Display Screen.
+				lcdcmd(0x01);           //Command for : Clear Display Screen.
 			delay(10);
 			break;
 		}
